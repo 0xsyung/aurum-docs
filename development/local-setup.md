@@ -245,14 +245,34 @@ cd ~/aurum-labs/aurum-website
 pnpm install
 ```
 
-### 4.2 Start Development Server
+### 4.2 Configure Environment
+
+Create a `.env` file to configure the Launch App button to point to your local trading app:
 
 ```bash
-# Start the development server
+cat > .env << 'EOF'
+# dApp URL - Points to the local trading app
+VITE_DAPP_URL=http://localhost:5173
+EOF
+```
+
+**Note**: The `VITE_DAPP_URL` environment variable controls where the "Launch App" button navigates. For local testing, this should point to your local aurum-app instance. For production, set it to your deployed dApp URL (e.g., `https://app.aurumlabs.io`).
+
+### 4.3 Start Development Server
+
+```bash
+# Start the development server (runs on a different port than aurum-app)
 pnpm run dev
 ```
 
-The website will be available at `http://localhost:5173` (or the port shown).
+The website will be available at `http://localhost:5174` (or the port shown). Note that if aurum-app is already running on port 5173, the landing page will automatically use the next available port.
+
+### 4.4 Test the Launch App Button
+
+1. Ensure aurum-app is running on `http://localhost:5173`
+2. Open the landing page at `http://localhost:5174`
+3. Click the "Launch App" button in the navigation or hero section
+4. The trading app should open in a new tab
 
 ---
 
@@ -389,6 +409,14 @@ VITE_MARKET_FACTORY_ADDRESS=0x...
 VITE_WALLETCONNECT_PROJECT_ID=
 VITE_TRANSACTION_DEADLINE_MINUTES=60
 VITE_SLIPPAGE_TOLERANCE_PERCENT=1
+```
+
+### aurum-website (.env)
+
+```env
+# dApp URL - Where the Launch App button navigates
+# For local development, point to local aurum-app
+VITE_DAPP_URL=http://localhost:5173
 ```
 
 ### Shell Environment (for cast commands)
