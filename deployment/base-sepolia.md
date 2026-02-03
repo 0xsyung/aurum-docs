@@ -49,6 +49,7 @@ VITE_AURUM_TOKEN_ADDRESS=0xdBfa3D8516C49581e2A6cBbD75F02F24c59811c1
 VITE_FEE_COLLECTOR_ADDRESS=0xBCC8aC562085E207460B9a0342d62a480DD9caAC
 VITE_AURUM_ORACLE_ADDRESS=0x4EC0295F0344ac264EB83bd7bDb0069015702297
 VITE_MARKET_FACTORY_ADDRESS=0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9
+VITE_USDC_ADDRESS=0x036CbD53842c5426634e7929541eC2318f3dCF7e
 ```
 
 ## Configuration
@@ -57,21 +58,104 @@ VITE_MARKET_FACTORY_ADDRESS=0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9
 - **Total Supply**: 1,000,000,000 AURUM (1 billion)
 - **Decimals**: 18
 - **Owner**: Deployer address
+- **Features**: Snapshots for voting, standard ERC20 functions
 
 ### AurumOracle
 - **Treasury**: Deployer address
-- Handles market resolution and disputes
+- **Staleness Threshold**: 7 days (configurable)
+- **Features**: 
+  - Optimistic oracle with dispute mechanism
+  - Outcome sum validation (0 < sum <= 100%)
+  - Proposal staleness checks
+  - Challenge period: 2 hours (binary), 24 hours (categorical)
 
 ### FeeCollector
 - **Treasury**: Deployer address
 - **Staking Pool**: Deployer address
-- Collects fees from market trades
+- **Features**: Collects fees from market trades and redemptions
 
 ### MarketFactory
 - **Conditional Tokens**: `0x9A7A037469204604C29a44901b69B0bBB1d45B13`
 - **Oracle**: `0x4EC0295F0344ac264EB83bd7bDb0069015702297`
 - **Fee Collector**: `0xBCC8aC562085E207460B9a0342d62a480DD9caAC`
-- **Allowed Collateral**: AurumToken
+- **Allowed Collateral**: USDC (0x036CbD53842c5426634e7929541eC2318f3dCF7e)
+- **Features**:
+  - Role-based access control
+  - Market creator and resolver roles
+  - Admin-controlled collateral management
+
+## Role Setup
+
+After deployment, configure roles for market operations:
+
+```bash
+# Grant market creator role to an address
+cast send 0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9 \
+  "grantMarketCreator(address)" \
+  0x<MARKET_CREATOR_ADDRESS> \
+  --rpc-url https://sepolia.base.org \
+  --private-key $PRIVATE_KEY
+
+# Grant market resolver role to an address
+cast send 0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9 \
+  "grantMarketResolver(address)" \
+  0x<MARKET_RESOLVER_ADDRESS> \
+  --rpc-url https://sepolia.base.org \
+  --private-key $PRIVATE_KEY
+```
+
+## Security Features
+
+### Implemented Protections
+
+1. **Deadline Protection**: All trading operations require deadline parameter
+   - Prevents old transactions from executing at unfavorable prices
+   - Recommended deadline: block.timestamp + 1 hour
+
+2. **Oracle Staleness Validation**: 
+   - Proposals older than 7 days are considered stale
+   - Prevents use of outdated market data
+   - Configurable via setStalenessThreshold()
+
+3. **Price Bounds Validation**:
+   - Outcome sum must be > 0 and <= 100%
+   - Prevents invalid probability distributions
+
+4. **Role-Based Access Control**:
+   - Market creation restricted to authorized creators
+   - Market resolution restricted to authorized resolvers
+   - Admin-controlled role management
+
+5. **Reentrancy Protection**:
+   - All state-changing functions protected with ReentrancyGuard
+   - Prevents reentrancy attacks
+
+6. **Slippage Protection**:
+   - All trading functions have minTokensOut and minCollateralOut parameters
+   - Protects against sandwich attacks and price manipulation
+
+## Frontend Configuration
+
+Add these environment variables to your frontend `.env` file:
+
+```env
+# Network Configuration
+VITE_CHAIN_ID=84532
+VITE_RPC_URL=https://sepolia.base.org
+VITE_BLOCK_EXPLORER=https://sepolia.basescan.org
+
+# Contract Addresses
+VITE_CONDITIONAL_TOKENS_ADDRESS=0x9A7A037469204604C29a44901b69B0bBB1d45B13
+VITE_AURUM_TOKEN_ADDRESS=0xdBfa3D8516C49581e2A6cBbD75F02F24c59811c1
+VITE_FEE_COLLECTOR_ADDRESS=0xBCC8aC562085E207460B9a0342d62a480DD9caAC
+VITE_AURUM_ORACLE_ADDRESS=0x4EC0295F0344ac264EB83bd7bDb0069015702297
+VITE_MARKET_FACTORY_ADDRESS=0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9
+VITE_USDC_ADDRESS=0x036CbD53842c5426634e7929541eC2318f3dCF7e
+
+# Transaction Settings
+VITE_TRANSACTION_DEADLINE_MINUTES=60
+VITE_SLIPPAGE_TOLERANCE_PERCENT=1
+```
 
 ## Verification Status
 
@@ -102,6 +186,12 @@ forge verify-contract \
 2. Connect your wallet
 3. Request test ETH
 
+### Get Test USDC
+
+1. Visit Aave Faucet or similar
+2. Request USDC on Base Sepolia
+3. Or use the USDC contract directly if you have permission
+
 ### Verify Contracts are Working
 
 ```bash
@@ -115,6 +205,12 @@ cast call 0xdBfa3D8516C49581e2A6cBbD75F02F24c59811c1 \
 cast call 0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9 \
   "admin()(address)" \
   --rpc-url https://sepolia.base.org
+
+# Check if USDC is allowed collateral
+cast call 0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9 \
+  "allowedCollaterals(address)(bool)" \
+  0x036CbD53842c5426634e7929541eC2318f3dCF7e \
+  --rpc-url https://sepolia.base.org
 ```
 
 ## Notes
@@ -123,3 +219,5 @@ cast call 0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9 \
 - Do not use real funds on testnet
 - Contract sizes have been optimized with Solidity optimizer (200 runs + via_ir)
 - All contracts are under the EIP-170 size limit (24,576 bytes)
+- All security fixes and enhancements are included in this deployment
+- Role-based access control must be configured before market operations
