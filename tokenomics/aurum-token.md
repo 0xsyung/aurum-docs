@@ -1,4 +1,8 @@
-# AURUM Token Economics
+# AURUM Token Economics (Planned)
+
+## Status
+
+The AURUM token is **not implemented** in `aurum-contracts` yet. This document describes a proposed design and should be treated as a plan, not current behavior.
 
 ## Overview
 

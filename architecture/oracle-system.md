@@ -1,8 +1,12 @@
-# Aurum Oracle System Design
+# Aurum Oracle System Design (Planned)
+
+## Status
+
+This document describes a **planned** oracle system. There is no oracle implementation in `aurum-contracts` yet, and the app does not interact with an oracle today.
 
 ## Overview
 
-The Aurum Oracle is an optimistic oracle system inspired by UMA's design. It allows anyone with sufficient AURUM tokens to propose market outcomes, with a challenge mechanism to ensure accuracy.
+The Aurum Oracle is a proposed optimistic oracle system inspired by UMA's design. It would allow anyone with sufficient AURUM tokens to propose market outcomes, with a challenge mechanism to ensure accuracy.
 
 ## Design Philosophy
 

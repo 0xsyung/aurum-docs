@@ -1,15 +1,22 @@
 # Aurum Labs Documentation
 
-Welcome to the official documentation repository for **Aurum Labs** - a decentralized prediction market platform built on Base.
+Welcome to the documentation repository for **Aurum Labs**.
 
-## Overview
+## Current Implementation Snapshot
 
-Aurum Labs is building a prediction market platform similar to Polymarket, but with our own governance token (AURUM) and oracle system. The platform allows users to trade on the outcomes of future events using outcome tokens backed by stablecoin collateral.
+This repo is meant to reflect the actual code state across the project. As of today:
+
+- **aurum-contracts** contains only a minimal Gnosis-style `ConditionalTokens` implementation plus `ERC6909` helpers.
+- **aurum-app** is a UI prototype that renders mock markets and has no live contract interactions yet.
+- **aurum-backend** is a placeholder with only a README.
+- **aurum-website** is a static landing page served by a small Express server.
+
+If anything below contradicts the code, treat the code as the source of truth and update the docs.
 
 ## Quick Start
 
-- **[Local Development Setup](./development/local-setup.md)** - Set up the complete platform locally for end-to-end testing
-- **[Deployment Guide](./deployment/README.md)** - Deploy to production (Cloudflare, Render, Base)
+- **[Local Development Setup](./development/local-setup.md)** - Start the app/website locally and optionally deploy the current contract.
+- **[Repository Overview](./deployment/repository-overview.md)** - What each repo contains today.
 
 ## Repository Structure
 
@@ -17,30 +24,25 @@ Aurum Labs is building a prediction market platform similar to Polymarket, but w
 aurum-docs/
 ├── README.md                    # This file
 ├── architecture/                # System architecture documentation
-│   ├── overview.md              # High-level system overview
-│   ├── smart-contracts.md       # Smart contract architecture
-│   ├── oracle-system.md         # Aurum Oracle design
-│   └── frontend-backend.md      # Frontend and backend architecture
-├── tokenomics/                  # Token economics documentation
-│   ├── aurum-token.md           # AURUM token details
-│   └── distribution.md          # Token distribution plan
+│   ├── overview.md              # High-level system overview (current vs planned)
+│   ├── smart-contracts.md       # Current smart contracts and planned components
+│   └── oracle-system.md         # Oracle design (planned, not implemented)
+├── tokenomics/                  # Token economics documentation (planned)
+│   └── aurum-token.md           # AURUM token design (planned)
 ├── development/                 # Development documentation
 │   ├── local-setup.md           # Local development setup guide
-│   ├── roadmap.md               # Development roadmap
-│   └── issues/                  # GitHub issues tracking
+│   └── roadmap.md               # Development roadmap (updated status)
 ├── deployment/                  # Deployment guides
 │   ├── README.md                # Deployment overview
 │   ├── cloudflare-setup.md      # Cloudflare Pages setup
-│   ├── render-setup.md          # Render backend setup
-│   ├── base-sepolia.md          # Testnet deployment
+│   ├── render-setup.md          # Render setup (website + backend template)
+│   ├── base-sepolia.md          # Testnet deployment notes (ConditionalTokens only)
 │   ├── repository-overview.md   # Repository summary
-│   └── alternatives.md          # Alternative hosting options
+│   ├── frontend-deployment.md   # aurum-app deployment
+│   ├── backend-deployment.md    # Backend placeholder
+│   └── url-configuration.md     # URL/env var configuration
 ├── api/                         # API documentation
-│   └── contract-interactions.md # Smart contract API reference
-├── research/                    # Research and references
-│   ├── polymarket-analysis.md   # Polymarket architecture analysis
-│   ├── uma-oracle.md            # UMA Oracle research
-│   └── prediction-markets.md    # General prediction market research
+│   └── contract-interactions.md # ConditionalTokens interaction guide
 └── changelog/                   # Development changelog
     └── YYYY-MM-DD.md            # Daily progress logs
 ```
@@ -49,45 +51,14 @@ aurum-docs/
 
 | Repository | Description | Status |
 |------------|-------------|--------|
-| [aurum-contracts](https://github.com/0xsyung/aurum-contracts) | Smart contracts (Foundry) | ✅ Deployed (Base Sepolia) |
-| [aurum-app](https://github.com/0xsyung/aurum-app) | Trading interface (React) | 🔄 In Development |
-| [aurum-website](https://github.com/0xsyung/aurum-website) | Landing page | ✅ Deployed |
-| [aurum-backend](https://github.com/0xsyung/aurum-backend) | Backend services | ⏳ Not Started |
+| [aurum-contracts](https://github.com/0xsyung/aurum-contracts) | ConditionalTokens (ERC6909) contracts | Prototype (minimal set) |
+| [aurum-app](https://github.com/0xsyung/aurum-app) | Trading UI | Prototype (mock data, no chain integration) |
+| [aurum-website](https://github.com/0xsyung/aurum-website) | Landing page | Active |
+| [aurum-backend](https://github.com/0xsyung/aurum-backend) | Backend services | Placeholder |
 
-## Deployed Contracts (Base Sepolia)
+## Deployed Contracts
 
-| Contract | Address |
-|----------|---------|
-| ConditionalTokens | `0x9A7A037469204604C29a44901b69B0bBB1d45B13` |
-| AurumToken | `0xdBfa3D8516C49581e2A6cBbD75F02F24c59811c1` |
-| FeeCollector | `0xBCC8aC562085E207460B9a0342d62a480DD9caAC` |
-| AurumOracle | `0x4EC0295F0344ac264EB83bd7bDb0069015702297` |
-| MarketFactory | `0xaF8ddE93C551ce4f6A21db07508858Fb15E4bbC9` |
-
-## Quick Links
-
-### Getting Started
-- [Local Development Setup](./development/local-setup.md)
-- [Repository Overview](./deployment/repository-overview.md)
-
-### Architecture
-- [System Architecture](./architecture/overview.md)
-- [Smart Contracts](./architecture/smart-contracts.md)
-- [Oracle System](./architecture/oracle-system.md)
-
-### Deployment
-- [Deployment Overview](./deployment/README.md)
-- [Cloudflare Setup](./deployment/cloudflare-setup.md)
-- [Render Setup](./deployment/render-setup.md)
-- [Base Sepolia Contracts](./deployment/base-sepolia.md)
-
-### Development
-- [Development Roadmap](./development/roadmap.md)
-- [Contract API Reference](./api/contract-interactions.md)
-
-### Tokenomics
-- [AURUM Token](./tokenomics/aurum-token.md)
-- [Token Distribution](./tokenomics/distribution.md)
+This repository does not currently track any on-chain deployments. If you deploy the current contracts, record addresses in `deployment/base-sepolia.md`.
 
 ## Target Network
 
