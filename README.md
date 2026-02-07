@@ -1,24 +1,22 @@
 # Aurum Labs Documentation
 
-Welcome to the documentation repository for **Aurum Labs**.
+Documentation for the Aurum Labs project. This repo is intended to stay **in sync with the code** and clearly mark what is implemented vs planned.
 
 ## Current Implementation Snapshot
 
-This repo is meant to reflect the actual code state across the project. As of today:
-
-- **aurum-contracts** contains only a minimal Gnosis-style `ConditionalTokens` implementation plus `ERC6909` helpers.
-- **aurum-app** is a UI prototype that renders mock markets and has no live contract interactions yet.
-- **aurum-backend** is a placeholder with only a README.
-- **aurum-website** is a static landing page served by a small Express server.
+- **aurum-contracts**: minimal Gnosis-style `ConditionalTokens` + `ERC6909` helpers only.
+- **aurum-app**: UI prototype with mock markets and no live contract interactions.
+- **aurum-backend**: placeholder (minimal server scaffold only).
+- **aurum-website**: static landing page served by a small Express server.
 
 If anything below contradicts the code, treat the code as the source of truth and update the docs.
 
 ## Quick Start
 
-- **[Local Development Setup](./development/local-setup.md)** - Start the app/website locally and optionally deploy the current contract.
-- **[Repository Overview](./deployment/repository-overview.md)** - What each repo contains today.
-- **[Web3 Login Research](./development/web3-login.md)** - Recommended auth approach (Privy) and alternatives.
-- **[x402 Payments](./development/x402.md)** - How to integrate HTTP 402 payments in the app.
+- **[Local Development Setup](./development/local-setup.md)**
+- **[Repository Overview](./deployment/repository-overview.md)**
+- **[Web3 Login Research](./development/web3-login.md)**
+- **[x402 Payments](./development/x402.md)**
 
 ## Repository Structure
 
@@ -49,18 +47,31 @@ aurum-docs/
     └── YYYY-MM-DD.md            # Daily progress logs
 ```
 
+## Features (Current)
+
+- Architecture and deployment documentation
+- Local setup guide
+- Web3 login research and x402 notes
+- Contract interaction guide for `ConditionalTokens`
+
+## Features (Planned)
+
+- Full contract suite docs (AurumToken, Oracle, MarketFactory, AMM)
+- Backend API documentation
+- Production deployment runbooks
+
 ## Related Repositories
 
 | Repository | Description | Status |
 |------------|-------------|--------|
-| [aurum-contracts](https://github.com/0xsyung/aurum-contracts) | ConditionalTokens (ERC6909) contracts | Prototype (minimal set) |
-| [aurum-app](https://github.com/0xsyung/aurum-app) | Trading UI | Prototype (mock data, no chain integration) |
+| [aurum-contracts](https://github.com/0xsyung/aurum-contracts) | ConditionalTokens (ERC6909) contracts | Prototype |
+| [aurum-app](https://github.com/0xsyung/aurum-app) | Trading UI | Prototype |
 | [aurum-website](https://github.com/0xsyung/aurum-website) | Landing page | Active |
 | [aurum-backend](https://github.com/0xsyung/aurum-backend) | Backend services | Placeholder |
 
 ## Deployed Contracts
 
-This repository does not currently track any on-chain deployments. If you deploy the current contracts, record addresses in `deployment/base-sepolia.md`.
+This repository does not currently track on-chain deployments. If you deploy the current contracts, record addresses in `deployment/base-sepolia.md`.
 
 ## Target Network
 
