@@ -18,6 +18,7 @@ If anything below contradicts the code, treat the code as the source of truth an
 - **[Local Development Setup](./development/local-setup.md)** - Start the app/website locally and optionally deploy the current contract.
 - **[Repository Overview](./deployment/repository-overview.md)** - What each repo contains today.
 - **[Web3 Login Research](./development/web3-login.md)** - Recommended auth approach (Privy) and alternatives.
+- **[x402 Payments](./development/x402.md)** - How to integrate HTTP 402 payments in the app.
 
 ## Repository Structure
 
